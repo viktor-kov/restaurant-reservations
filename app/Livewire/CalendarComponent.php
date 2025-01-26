@@ -1,59 +1,66 @@
 <?php
 
-namespace App\Livewire\Components;
+namespace App\Livewire;
 
+use App\Calendar\DTOs\CalendarDTO;
+use App\Calendar\DTOs\DayDTO;
+use App\Calendar\Services\CalendarService;
 use App\Reservation\Actions\CreateReservationAction;
 use App\Reservation\DTOs\CreateReservationDTO;
-use App\Reservation\DTOs\ReservationDTO;
-use App\Reservation\Services\ReservationAvailabilityService;
 use Carbon\Carbon;
+use Carbon\CarbonImmutable;
+use Carbon\CarbonInterface;
 use Illuminate\View\View;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Throwable;
 
-class PickReservationComponent extends Component
+class CalendarComponent extends Component
 {
     public ?string $selectedDate = null;
     public ?string $selectedTime = null;
     public int $seatsCount = 1;
     public string $notes = '';
 
-    private ReservationAvailabilityService $reservationAvailabilityService;
+    private CalendarService $calendarService;
 
-    // https://dribbble.com/shots/23193665-Vision-Pro-Reservations-system-Lazarev
+    private ?CalendarDTO $calendarDTO = null;
+    private ?DayDTO $selectedDateDTO = null;
 
-    public function mount(): void
-    {
+    public function mount(): void {
         $this->setSelectedDate(today());
     }
 
     public function rendering(): void
     {
-        $this->reservationAvailabilityService = new ReservationAvailabilityService(
-            Carbon::parse($this->selectedDate),
+        $this->calendarService = new CalendarService(
+            CarbonImmutable::parse($this->selectedDate),
         );
+
+        $this->calendarDTO = $this->calendarService->get();
+        $this->selectedDateDTO = $this->calendarService->getSelectedDate();
+
+        $this->selectedDate = $this->selectedDateDTO
+            ->date
+            ->format('Y-m-d');
     }
 
-    public function render(): View
-    {
-        return view('livewire.components.pick-reservation-component');
+    public function render(): View {
+        return view('livewire.calendar-component');
     }
 
     #[Computed]
-    public function getWeeks(): array
+    public function getCalendar(): CalendarDTO
     {
         return $this
-            ->reservationAvailabilityService
-            ->getWeeks();
+            ->calendarDTO;
     }
 
     #[Computed]
-    public function getSelectedDate(): ReservationDTO
+    public function getSelectedDate(): DayDTO
     {
         return $this
-            ->reservationAvailabilityService
-            ->getSelectedDate();
+            ->selectedDateDTO;
     }
 
     public function selectDate(
@@ -127,7 +134,7 @@ class PickReservationComponent extends Component
         ]);
 
         try {
-            $reservationDate = Carbon::parse("{$this->selectedDate} {$this->selectedTime}");
+            $reservationDate = CarbonImmutable::parse("{$this->selectedDate} {$this->selectedTime}");
 
             $createReservationAction = new CreateReservationAction();
 
@@ -141,7 +148,7 @@ class PickReservationComponent extends Component
             );
 
             $this->reset(
-                'selectedTime',
+                'selectedDate',
                 'selectedTime',
                 'notes',
             );
@@ -158,7 +165,7 @@ class PickReservationComponent extends Component
     }
 
     private function setSelectedDate(
-        Carbon $selectedDate
+        CarbonInterface $selectedDate
     ): void {
         $this->selectedDate = $selectedDate
             ->format('Y-m-d');

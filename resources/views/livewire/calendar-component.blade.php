@@ -1,10 +1,10 @@
 <div>
     @error('generalError')
-        <div
-            class="p-4 bg-red-600 text-white mb-4 rounded-lg"
-        >
-            {{ $message }}
-        </div>
+    <div
+        class="p-4 bg-red-600 text-white mb-4 rounded-lg"
+    >
+        {{ $message }}
+    </div>
     @enderror
 
     <div class="flex flex-col lg:flex-row">
@@ -59,11 +59,11 @@
                     {{ __('Su') }}
                 </div>
             </div>
-            @foreach($this->getWeeks() as $week)
+            @foreach($this->getCalendar()->weeks as $week)
                 <div
                     class="w-full grid grid-cols-7 gap-4 mb-4"
                 >
-                    @foreach($week as $day)
+                    @foreach($week->days as $day)
                         <button
                             type="button"
                             @class(['h-8 lg:h-10 w-8 lg:w-10 font-semibold flex items-center justify-center rounded-lg', 'text-gray-500 bg-gray-100 disabled' => ! $day->available, 'bg-blue-100' => $day->selected])
@@ -78,11 +78,11 @@
                 </div>
             @endforeach
             @error('selectedDate')
-                <small
-                    class="text-red-600"
-                >
-                    {{ $message }}
-                </small>
+            <small
+                class="text-red-600"
+            >
+                {{ $message }}
+            </small>
             @enderror
         </div>
         <div
@@ -166,11 +166,11 @@
                         @endforeach
                     </select>
                     @error('selectedTime')
-                        <small
-                            class="text-red-600"
-                        >
-                            {{ $message }}
-                        </small>
+                    <small
+                        class="text-red-600"
+                    >
+                        {{ $message }}
+                    </small>
                     @enderror
                 </div>
             </div>
@@ -191,11 +191,11 @@
                     ></textarea>
                 </div>
                 @error('notes')
-                    <small
-                        class="text-red-600"
-                    >
-                        {{ $message }}
-                    </small>
+                <small
+                    class="text-red-600"
+                >
+                    {{ $message }}
+                </small>
                 @enderror
             </div>
             <hr class="my-4 border-gray-200">

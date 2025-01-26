@@ -4,11 +4,12 @@ namespace App\Reservation\DTOs;
 
 use App\Models\User;
 use Carbon\Carbon;
+use Carbon\CarbonInterface;
 
 class CreateReservationDTO
 {
     public function __construct(
-        public Carbon $reservationDate,
+        public CarbonInterface $reservationDate,
         public int $seatsCount,
         public string $notes,
         public User $user
