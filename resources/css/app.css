@@ -5,4 +5,5 @@
 body {
     background: url("../images/background2.jpg") center center no-repeat;
     background-size: cover;
+    background-attachment: fixed;
 }
