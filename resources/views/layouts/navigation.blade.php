@@ -22,7 +22,8 @@
 
                 @can('customer')
                     <x-nav-link
-                        :href="route('admin.reservations.list')"
+                        :href="route('customer.reservations.list')"
+                        :active="request()->routeIs('customer.reservations.list')"
                     >
                         {{ __('My Reservations') }}
                     </x-nav-link>

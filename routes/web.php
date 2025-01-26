@@ -22,4 +22,9 @@ Route::group(['middleware' => ['auth', IsAdminMiddleware::class], 'prefix' => 'a
     Route::get('/reservations/{reservation:uuid}', ShowReservationController::class)->name('reservations.show');
 });
 
+Route::group(['middleware' => ['auth'], 'prefix' => 'customer', 'as' => 'customer.'], function () {
+    Route::get('/reservations', \App\Http\Controllers\Customer\Reservation\ListReservationController::class)->name('reservations.list');
+    Route::delete('/reservations/{reservation:uuid}', \App\Http\Controllers\Customer\Reservation\DeleteReservationController::class)->name('reservations.delete');
+});
+
 require __DIR__.'/auth.php';
