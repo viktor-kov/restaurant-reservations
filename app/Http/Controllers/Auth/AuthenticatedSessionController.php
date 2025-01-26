@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Role\Enums\RoleEnum;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -28,7 +29,15 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('homepage', absolute: false));
+        $user = auth()->user();
+
+        $route = route('homepage', absolute: false);
+
+        if ($user->role === RoleEnum::ADMIN->value) {
+            $route = route('admin.reservations.list', absolute: false);
+        }
+
+        return redirect()->intended($route);
     }
 
     /**
