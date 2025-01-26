@@ -24,7 +24,7 @@ class CalendarService
 
         $this->reservationService = resolve(ReservationService::class, [
             'month' => $this->start,
-            'now' => now()
+            'now' => now(),
         ]);
     }
 

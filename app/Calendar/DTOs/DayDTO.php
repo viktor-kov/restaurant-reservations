@@ -2,7 +2,6 @@
 
 namespace App\Calendar\DTOs;
 
-use Carbon\Carbon;
 use Carbon\CarbonInterface;
 
 class DayDTO

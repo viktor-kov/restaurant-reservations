@@ -18,7 +18,7 @@ class CreateReservationAction
     ): Reservation {
         $reservationService = resolve(ReservationService::class, [
             'month' => $createReservationDTO->reservationDate,
-            'now' => $createReservationDTO->reservationDate
+            'now' => $createReservationDTO->reservationDate,
         ]);
 
         $availableTimes = $reservationService->getAvailableTimes(
@@ -35,7 +35,7 @@ class CreateReservationAction
                 $availableTimes
             )
         ) {
-            throw new UnableToCreateReservationException();
+            throw new UnableToCreateReservationException;
         }
 
         return Reservation::create([

@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Reservation;
 use App\Reservation\Actions\DeleteReservationAction;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Throwable;
 

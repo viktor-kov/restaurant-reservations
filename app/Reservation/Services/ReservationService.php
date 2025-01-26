@@ -90,7 +90,7 @@ class ReservationService
 
         return $reservations->map(function (Reservation $reservation) {
             return [
-                'time' => $reservation->date->format('H:i')
+                'time' => $reservation->date->format('H:i'),
             ];
         })
             ->groupBy('time')

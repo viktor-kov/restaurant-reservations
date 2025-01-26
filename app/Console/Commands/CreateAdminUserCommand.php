@@ -22,7 +22,6 @@ class CreateAdminUserCommand extends Command
 
         $password ??= Str::password();
 
-
         $user = User::create([
             'role' => RoleEnum::ADMIN->value,
             'name' => $name,

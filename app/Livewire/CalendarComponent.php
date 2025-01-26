@@ -18,16 +18,21 @@ use Throwable;
 class CalendarComponent extends Component
 {
     public ?string $selectedDate = null;
+
     public ?string $selectedTime = null;
+
     public int $seatsCount = 1;
+
     public string $notes = '';
 
     private CalendarService $calendarService;
 
     private ?CalendarDTO $calendarDTO = null;
+
     private ?DayDTO $selectedDateDTO = null;
 
-    public function mount(): void {
+    public function mount(): void
+    {
         $this->setSelectedDate(today());
     }
 
@@ -45,7 +50,8 @@ class CalendarComponent extends Component
             ->format('Y-m-d');
     }
 
-    public function render(): View {
+    public function render(): View
+    {
         return view('livewire.calendar-component');
     }
 
@@ -96,7 +102,7 @@ class CalendarComponent extends Component
         $this->seatsCount++;
 
         if ($this->seatsCount > config('restaurant.max_seats_per_table')) {
-            $this->seatsCount =  config('restaurant.max_seats_per_table');
+            $this->seatsCount = config('restaurant.max_seats_per_table');
         }
     }
 
@@ -105,7 +111,7 @@ class CalendarComponent extends Component
         $this->seatsCount--;
 
         if ($this->seatsCount < 1) {
-            $this->seatsCount =  1;
+            $this->seatsCount = 1;
         }
     }
 
@@ -114,29 +120,29 @@ class CalendarComponent extends Component
         $this->validate([
             'selectedDate' => [
                 'required',
-                'date'
+                'date',
             ],
             'selectedTime' => [
                 'required',
-                'date_format:H:i'
+                'date_format:H:i',
             ],
             'seatsCount' => [
                 'required',
                 'integer',
                 'min:1',
-                'max:' . config('restaurant.max_seats_per_table')
+                'max:'.config('restaurant.max_seats_per_table'),
             ],
             'notes' => [
                 'nullable',
                 'string',
-                'max:1000'
+                'max:1000',
             ],
         ]);
 
         try {
             $reservationDate = CarbonImmutable::parse("{$this->selectedDate} {$this->selectedTime}");
 
-            $createReservationAction = new CreateReservationAction();
+            $createReservationAction = new CreateReservationAction;
 
             $createReservationAction->handle(
                 new CreateReservationDTO(

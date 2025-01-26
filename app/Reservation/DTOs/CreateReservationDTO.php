@@ -3,7 +3,6 @@
 namespace App\Reservation\DTOs;
 
 use App\Models\User;
-use Carbon\Carbon;
 use Carbon\CarbonInterface;
 
 class CreateReservationDTO
@@ -13,7 +12,5 @@ class CreateReservationDTO
         public int $seatsCount,
         public string $notes,
         public User $user
-    ) {
-
-    }
+    ) {}
 }

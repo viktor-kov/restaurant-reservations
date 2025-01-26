@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin\Reservation;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Reservation\ListReservationRequest;
 use App\Models\Reservation;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 
@@ -18,7 +17,7 @@ class ListReservationController extends Controller
 
         $reservations = Reservation::query()
             ->with([
-                'user'
+                'user',
             ])
             ->whereDate('date', $request->validated('date'))
             ->get();

@@ -2,7 +2,4 @@
 
 namespace App\Reservation\Exceptions;
 
-class UnableToCreateReservationException extends \Exception
-{
-
-}
+class UnableToCreateReservationException extends \Exception {}

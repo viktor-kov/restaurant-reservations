@@ -20,7 +20,7 @@ class Reservation extends Model
         parent::boot();
 
         static::creating(function (Reservation $reservation) {
-            if (!$reservation->uuid) {
+            if (! $reservation->uuid) {
                 $reservation->uuid = Str::uuid()
                     ->toString();
             }
