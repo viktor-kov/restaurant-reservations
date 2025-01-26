@@ -88,84 +88,110 @@
         <div
             class="w-full lg:w-1/2 mt-4 lg:mt-0"
         >
-            <div>
-                <h1
-                    class="text-xl font-semibold text-center"
-                >
-                    {{ __('Select Seats & Time') }}
-                </h1>
-            </div>
-            <hr class="my-4 border-gray-200">
-            <div
-                class="grid grid-cols-2 gap-4"
-            >
+            @auth()
                 <div>
-                    <h3
-                        class="text-lg font-semibold"
+                    <h1
+                        class="text-xl font-semibold text-center"
                     >
-                        {{ __('Seats') }}
-                    </h3>
+                        {{ __('Select Seats & Time') }}
+                    </h1>
                 </div>
+                <hr class="my-4 border-gray-200">
                 <div
-                    class="flex justify-end"
+                    class="grid grid-cols-2 gap-4"
                 >
-                    <div class="flex gap-4">
-                        <button
-                            type="button"
-                            class="h-8 w-8 flex items-center justify-center bg-gray-100 border border-gray-400 rounded-lg"
-                            wire:click="removeSeats"
+                    <div>
+                        <h3
+                            class="text-lg font-semibold"
                         >
-                            -
-                        </button>
-
-                        <div>
-                            <input
-                                type="number"
-                                class="h-8 w-20 flex items-center justify-center  border border-gray-400 rounded-lg"
-                                wire:model.debounce="seatsCount"
+                            {{ __('Seats') }}
+                        </h3>
+                    </div>
+                    <div
+                        class="flex justify-end"
+                    >
+                        <div class="flex gap-4">
+                            <button
+                                type="button"
+                                class="h-8 w-8 flex items-center justify-center bg-gray-100 border border-gray-400 rounded-lg"
+                                wire:click="removeSeats"
                             >
-                        </div>
+                                -
+                            </button>
 
-                        <button
-                            type="button"
-                            class="h-8 w-8 flex items-center justify-center bg-gray-100 border border-gray-400 rounded-lg"
-                            wire:click="addSeats"
-                        >
-                            +
-                        </button>
+                            <div>
+                                <input
+                                    type="number"
+                                    class="h-8 w-20 flex items-center justify-center  border border-gray-400 rounded-lg"
+                                    wire:model.debounce="seatsCount"
+                                >
+                            </div>
+
+                            <button
+                                type="button"
+                                class="h-8 w-8 flex items-center justify-center bg-gray-100 border border-gray-400 rounded-lg"
+                                wire:click="addSeats"
+                            >
+                                +
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <hr class="my-4 border-gray-200">
-            <div
-                class="mb-4"
-            >
-                <div>
-                    <h3
-                        class="text-lg font-semibold"
-                    >
-                        {{ __('Time') }}
-                    </h3>
-                </div>
-                <div>
-                    <select
-                        class="w-full rounded-lg"
-                        wire:model="selectedTime"
-                    >
-                        <option
-                            hidden
+                <hr class="my-4 border-gray-200">
+                <div
+                    class="mb-4"
+                >
+                    <div>
+                        <h3
+                            class="text-lg font-semibold"
                         >
-                            {{ __('Select Time') }}
-                        </option>
-                        @foreach($this->getSelectedDate()->availableTimes as $availableTime)
+                            {{ __('Time') }}
+                        </h3>
+                    </div>
+                    <div>
+                        <select
+                            class="w-full rounded-lg"
+                            wire:model="selectedTime"
+                        >
                             <option
-                                value="{{ $availableTime->dateTime->format('H:i') }}"
+                                hidden
                             >
-                                {{ $availableTime->dateTime->format('H:i') }}
+                                {{ __('Select Time') }}
                             </option>
-                        @endforeach
-                    </select>
-                    @error('selectedTime')
+                            @foreach($this->getSelectedDate()->availableTimes as $availableTime)
+                                <option
+                                    value="{{ $availableTime->dateTime->format('H:i') }}"
+                                >
+                                    {{ $availableTime->dateTime->format('H:i') }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('selectedTime')
+                        <small
+                            class="text-red-600"
+                        >
+                            {{ $message }}
+                        </small>
+                        @enderror
+                    </div>
+                </div>
+                <hr class="my-4 border-gray-200">
+                <div>
+                    <div>
+                        <h3
+                            class="text-lg font-semibold"
+                        >
+                            {{ __('Notes') }}
+                        </h3>
+                    </div>
+                    <div>
+                    <textarea
+                        class="w-full border-gray-400 rounded-lg"
+                        rows="3"
+                        wire:model="notes"
+                    ></textarea>
+                    </div>
+                    @error('notes')
                     <small
                         class="text-red-600"
                     >
@@ -173,43 +199,33 @@
                     </small>
                     @enderror
                 </div>
-            </div>
-            <hr class="my-4 border-gray-200">
-            <div>
-                <div>
-                    <h3
-                        class="text-lg font-semibold"
+                <hr class="my-4 border-gray-200">
+                <div
+                    class="flex justify-center"
+                >
+                    <button
+                        type="button"
+                        class="px-4 py-2 bg-green-600 text-white rounded-lg"
+                        wire:click="createReservation"
                     >
-                        {{ __('Notes') }}
-                    </h3>
+                        {{ __('Create Reservation') }}
+                    </button>
                 </div>
-                <div>
-                    <textarea
-                        class="w-full border-gray-400 rounded-lg"
-                        rows="3"
-                        wire:model="notes"
-                    ></textarea>
+            @endauth
+
+            @guest
+                <div
+                    class="flex justify-center h-full items-center"
+                >
+                    <a
+                        href="{{ route('login') }}"
+                        type="button"
+                        class="px-4 py-2 bg-green-600 text-white rounded-lg"
+                    >
+                        {{ __('Log in') }}
+                    </a>
                 </div>
-                @error('notes')
-                <small
-                    class="text-red-600"
-                >
-                    {{ $message }}
-                </small>
-                @enderror
-            </div>
-            <hr class="my-4 border-gray-200">
-            <div
-                class="flex justify-center"
-            >
-                <button
-                    type="button"
-                    class="px-4 py-2 bg-green-600 text-white rounded-lg"
-                    wire:click="createReservation"
-                >
-                    {{ __('Create Reservation') }}
-                </button>
-            </div>
+            @endguest
         </div>
     </div>
 </div>
