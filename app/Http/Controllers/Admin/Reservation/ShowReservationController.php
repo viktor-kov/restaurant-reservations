@@ -16,7 +16,7 @@ class ShowReservationController extends Controller
     public function __invoke(
         Reservation $reservation
     ): View {
-        Gate::authorize('view', $reservation);
+        Gate::authorize('view-any', $reservation);
 
         $reservation
             ->load('user');

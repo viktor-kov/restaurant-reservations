@@ -7,7 +7,7 @@
     </div>
     @enderror
 
-    <div class="flex flex-col lg:flex-row">
+    <div class="flex flex-col lg:flex-row text-white">
         <div
             class="w-full lg:w-1/2 border-b lg:border-r lg:border-b-0 lg:mr-4 border-gray-200"
         >
@@ -61,12 +61,12 @@
             </div>
             @foreach($this->getCalendar()->weeks as $week)
                 <div
-                    class="w-full grid grid-cols-7 gap-4 mb-4"
+                    class="w-full grid grid-cols-7 gap-4 mb-4 text-gray-500"
                 >
                     @foreach($week->days as $day)
                         <button
                             type="button"
-                            @class(['h-8 lg:h-10 w-8 lg:w-10 font-semibold flex items-center justify-center rounded-lg', 'text-gray-500 bg-gray-100 disabled' => ! $day->available, 'bg-blue-100' => $day->selected])
+                            @class(['h-8 lg:h-10 w-8 lg:w-10 font-semibold flex items-center justify-center rounded-lg text-white', 'bg-gray-100 !text-gray-500 disabled' => ! $day->available, 'bg-green-600 text-white' => $day->selected])
                             @if($day->available)
                                 wire:click="selectDate('{{ $day->date->format('Y-m-d') }}')"
                             @endif
@@ -108,7 +108,7 @@
                         </h3>
                     </div>
                     <div
-                        class="flex justify-end"
+                        class="flex justify-end text-gray-900"
                     >
                         <div class="flex gap-4">
                             <button
@@ -150,7 +150,7 @@
                     </div>
                     <div>
                         <select
-                            class="w-full rounded-lg"
+                            class="w-full rounded-lg text-gray-900"
                             wire:model="selectedTime"
                         >
                             <option
@@ -176,7 +176,7 @@
                     </div>
                 </div>
                 <hr class="my-4 border-gray-200">
-                <div>
+                <div class="mb-4">
                     <div>
                         <h3
                             class="text-lg font-semibold"
@@ -186,7 +186,7 @@
                     </div>
                     <div>
                     <textarea
-                        class="w-full border-gray-400 rounded-lg"
+                        class="w-full border-gray-400 rounded-lg text-gray-900"
                         rows="3"
                         wire:model="notes"
                     ></textarea>
@@ -199,7 +199,6 @@
                     </small>
                     @enderror
                 </div>
-                <hr class="my-4 border-gray-200">
                 <div
                     class="flex justify-center"
                 >

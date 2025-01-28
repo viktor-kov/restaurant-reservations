@@ -19,8 +19,9 @@ class ListReservationController extends Controller
             ->with([
                 'user',
             ])
+            ->orderBy('date')
             ->whereDate('date', $request->validated('date'))
-            ->get();
+            ->paginate(8);
 
         $maxSeatsPerTable = config('restaurant.max_seats_per_table');
 
