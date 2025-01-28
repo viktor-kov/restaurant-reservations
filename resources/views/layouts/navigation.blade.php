@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }">
+<nav x-data="{ open: false }" class="backdrop-blur-xl bg-black/50">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -61,7 +61,7 @@
             <div class="flex justify-end w-full sm:hidden">
                 <!-- Hamburger -->
                 <div class="-me-2 flex items-center sm:hidden">
-                    <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-white hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
+                    <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-white transition duration-150 ease-in-out">
                         <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                             <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                             <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -75,22 +75,66 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <!-- Responsive Settings Options -->
-        <div class="pt-4 pb-1 border-t bg-white border-gray-200">
+        <div class="pt-4 pb-1">
             <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('profile.edit')">
-                    {{ __('Profile') }}
+                <x-responsive-nav-link
+                    class="text-white"
+                    :href="route('homepage')"
+                >
+                    {{ __('New Reservation') }}
                 </x-responsive-nav-link>
 
-                <!-- Authentication -->
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-
-                    <x-responsive-nav-link :href="route('logout')"
-                            onclick="event.preventDefault();
-                                        this.closest('form').submit();">
-                        {{ __('Log Out') }}
+                @can('admin')
+                    <x-responsive-nav-link
+                        class="text-white"
+                        :href="route('admin.reservations.list')"
+                        :active="request()->routeIs('admin.reservations.list')"
+                    >
+                        {{ __('All Reservations') }}
                     </x-responsive-nav-link>
-                </form>
+                @endcan
+
+                @can('customer')
+                    <x-responsive-nav-link
+                        class="text-white"
+                        :href="route('customer.reservations.list')"
+                        :active="request()->routeIs('customer.reservations.list')"
+                    >
+                        {{ __('My Reservations') }}
+                    </x-responsive-nav-link>
+                @endcan
+
+                @auth
+                    <div>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+
+                            <x-responsive-nav-link
+                                class="text-white"
+                                :href="route('logout')"
+                                onclick="event.preventDefault(); this.closest('form').submit();"
+                            >
+                                {{ __('Log Out') }}
+                            </x-responsive-nav-link>
+                        </form>
+                    </div>
+                @endauth
+
+                @guest
+                    <x-responsive-nav-link
+                        class="text-white"
+                        :href="route('login')"
+                    >
+                        {{ __('Log in') }}
+                    </x-responsive-nav-link>
+
+                    <x-responsive-nav-link
+                        class="text-white"
+                        :href="route('register')"
+                    >
+                        {{ __('Register') }}
+                    </x-responsive-nav-link>
+                @endguest
             </div>
         </div>
     </div>
