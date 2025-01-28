@@ -54,7 +54,7 @@
                     </div>
                 @else
                     <div
-                        class="relative h-full flex items-center justify-center"
+                        class="relative min-h-[80vh] flex items-center justify-center"
                     >
                         <a
                             href="{{ route('homepage') }}"
