@@ -218,7 +218,6 @@
                 >
                     <a
                         href="{{ route('login') }}"
-                        type="button"
                         class="px-4 py-2 bg-green-600 text-white rounded-lg"
                     >
                         {{ __('Log in') }}

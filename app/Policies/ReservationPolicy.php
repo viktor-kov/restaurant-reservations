@@ -45,6 +45,10 @@ class ReservationPolicy
      */
     public function delete(User $user, Reservation $reservation): bool
     {
+        if ($reservation->date->lessThan(now())) {
+            return false;
+        }
+
         return $user->id === $reservation->user_id || $user->role === RoleEnum::ADMIN->value;
     }
 

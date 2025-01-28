@@ -26,19 +26,21 @@
                                         <td class="border-b border-white p-4">{{ $reservation->notes }}</td>
                                         <td class="border-b border-white p-4">
                                             <div class="flex justify-end gap-4">
-                                                <div>
-                                                    <form action="{{ route('customer.reservations.delete', ['reservation' => $reservation]) }}" method="POST">
-                                                        @csrf
-                                                        @method('DELETE')
+                                                @if($reservation->date->greaterThan(now()))
+                                                    <div>
+                                                        <form action="{{ route('customer.reservations.delete', ['reservation' => $reservation]) }}" method="POST">
+                                                            @csrf
+                                                            @method('DELETE')
 
-                                                        <x-danger-button
-                                                            type="submit"
-                                                            onclick="return confirm('{{ __('Are you sure?') }}')"
-                                                        >
-                                                            <i class="fa-solid fa-trash"></i>
-                                                        </x-danger-button>
-                                                    </form>
-                                                </div>
+                                                            <x-danger-button
+                                                                type="submit"
+                                                                onclick="return confirm('{{ __('Are you sure?') }}')"
+                                                            >
+                                                                <i class="fa-solid fa-trash"></i>
+                                                            </x-danger-button>
+                                                        </form>
+                                                    </div>
+                                                @endif
                                             </div>
                                         </td>
                                     </tr>
