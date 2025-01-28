@@ -76,7 +76,7 @@
 
                         <div class="flex items-center justify-end mt-4">
                             <x-primary-button
-                                class="bg-green-600 hover:bg-green-500 ms-3"
+                                class="bg-green-600 hover:bg-green-500 active:bg-green-500 ms-3"
                             >
                                 {{ __('Log in') }}
                             </x-primary-button>

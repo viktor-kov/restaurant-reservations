@@ -110,7 +110,7 @@
                             </a>
 
                             <x-primary-button
-                                class="bg-green-600 hover:bg-green-500 ms-4"
+                                class="bg-green-600 hover:bg-green-500 active:bg-green-500 ms-4"
                             >
                                 {{ __('Register') }}
                             </x-primary-button>
