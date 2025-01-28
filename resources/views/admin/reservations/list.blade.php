@@ -3,10 +3,10 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 text-gray-900">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg h-[80vh]">
-                <div class="h-full">
-                    <div class="flex flex-col h-full justify-between">
-                        <table class="table-fixed w-full text-left border-collapse">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="flex flex-col justify-between min-h-[80vh]">
+                    <div class="overflow-auto h-full">
+                        <table class="table-auto overflow-scroll w-full text-left border-collapse">
                             <thead>
                             <tr class="bg-gray-100">
                                 <th class="border-b border-white p-4 font-semibold">{{ __('Date & Time') }}</th>
@@ -52,9 +52,9 @@
                             @endforeach
                             </tbody>
                         </table>
-                        <div class="p-4">
-                            {!! $reservations->links() !!}
-                        </div>
+                    </div>
+                    <div class="p-4">
+                        {!! $reservations->links() !!}
                     </div>
                 </div>
             </div>

@@ -3,11 +3,11 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 text-gray-900">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg h-[80vh]">
-                <div class="h-full">
-                    @if($reservations->isNotEmpty())
-                        <div class="flex flex-col h-full justify-between">
-                            <table class="table-fixed w-full text-left border-collapse">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg min-h-[80vh]">
+                @if($reservations->isNotEmpty())
+                    <div class="flex flex-col justify-between min-h-[80vh]">
+                        <div class="overflow-auto">
+                            <table class="table-auto overflow-scroll w-full text-left border-collapse">
                                 <thead>
                                 <tr class="bg-gray-100">
                                     <th class="border-b border-white p-4 font-semibold">{{ __('Date & Time') }}</th>
@@ -45,24 +45,24 @@
                                 @endforeach
                                 </tbody>
                             </table>
-                            <div class="p-4">
-                                {!! $reservations->links() !!}
-                            </div>
                         </div>
-                    @else
-                        <div
-                            class="relative h-full flex items-center justify-center"
+                        <div class="p-4">
+                            {!! $reservations->links() !!}
+                        </div>
+                    </div>
+                @else
+                    <div
+                        class="relative h-full flex items-center justify-center"
+                    >
+                        <a
+                            href="{{ route('homepage') }}"
+                            type="button"
+                            class="inline-block px-4 py-2 bg-green-600 text-white rounded-lg"
                         >
-                            <a
-                                href="{{ route('homepage') }}"
-                                type="button"
-                                class="inline-block px-4 py-2 bg-green-600 text-white rounded-lg"
-                            >
-                                {{ __('Create Reservation') }}
-                            </a>
-                        </div>
-                    @endif
-                </div>
+                            {{ __('Create Reservation') }}
+                        </a>
+                    </div>
+                @endif
             </div>
         </div>
     </div>
