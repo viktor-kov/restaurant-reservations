@@ -2,6 +2,7 @@
 
 namespace App\Reservation\Actions;
 
+use App\Events\ReservationDeletedEvent;
 use App\Models\Reservation;
 
 class DeleteReservationAction
@@ -10,5 +11,11 @@ class DeleteReservationAction
         Reservation $reservation
     ): void {
         $reservation->delete();
+
+        event(
+            new ReservationDeletedEvent(
+                $reservation->id
+            )
+        );
     }
 }

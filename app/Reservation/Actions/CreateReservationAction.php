@@ -2,6 +2,7 @@
 
 namespace App\Reservation\Actions;
 
+use App\Events\ReservationCreatedEvent;
 use App\Models\Reservation;
 use App\Reservation\DTOs\AvailableTimeDTO;
 use App\Reservation\DTOs\CreateReservationDTO;
@@ -42,11 +43,19 @@ class CreateReservationAction
             throw new UnableToCreateReservationException;
         }
 
-        return Reservation::create([
+        $reservation = Reservation::create([
             'seats_count' => $createReservationDTO->seatsCount,
             'date' => $createReservationDTO->reservationDate->format('Y-m-d H:i:s'),
             'notes' => $createReservationDTO->notes,
             'user_id' => $createReservationDTO->user->id,
         ]);
+
+        event(
+            new ReservationCreatedEvent(
+                $reservation->id
+            )
+        );
+
+        return $reservation;
     }
 }
