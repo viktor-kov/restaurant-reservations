@@ -14,7 +14,7 @@ class ListReservationController extends Controller
     ): View {
         $reservations = Reservation::query()
             ->with([
-                'user'
+                'user',
             ])
             ->where('user_id', auth()->id())
             ->orderBy('date')
