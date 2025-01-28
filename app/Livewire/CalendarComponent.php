@@ -25,6 +25,8 @@ class CalendarComponent extends Component
 
     public string $notes = '';
 
+    public bool $showSuccessMessage = false;
+
     private CalendarService $calendarService;
 
     private ?CalendarDTO $calendarDTO = null;
@@ -34,6 +36,11 @@ class CalendarComponent extends Component
     public function mount(): void
     {
         $this->setSelectedDate(today());
+    }
+
+    public function boot(): void
+    {
+        $this->hideSuccessMessage();
     }
 
     public function rendering(): void
@@ -95,6 +102,10 @@ class CalendarComponent extends Component
         }
 
         $this->selectedDate = $date;
+
+        $this->reset([
+            'selectedTime',
+        ]);
     }
 
     public function addSeats(): void
@@ -156,10 +167,13 @@ class CalendarComponent extends Component
             $this->reset(
                 'selectedDate',
                 'selectedTime',
+                'seatsCount',
                 'notes',
             );
 
             $this->setSelectedDate(today());
+
+            $this->showSuccessMessage();
         } catch (Throwable $throwable) {
             $this->addError(
                 'generalError',
@@ -175,5 +189,15 @@ class CalendarComponent extends Component
     ): void {
         $this->selectedDate = $selectedDate
             ->format('Y-m-d');
+    }
+
+    private function showSuccessMessage(): void
+    {
+        $this->showSuccessMessage = true;
+    }
+
+    private function hideSuccessMessage(): void
+    {
+        $this->showSuccessMessage = false;
     }
 }

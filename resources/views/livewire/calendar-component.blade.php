@@ -1,11 +1,19 @@
 <div>
     @error('generalError')
-    <div
-        class="p-4 bg-red-600 text-white mb-4 rounded-lg"
-    >
-        {{ $message }}
-    </div>
+        <div
+            class="p-4 bg-red-600 text-white mb-4 rounded-lg"
+        >
+            {{ $message }}
+        </div>
     @enderror
+
+    @if($showSuccessMessage)
+        <div
+            class="p-4 bg-green-600 text-white mb-4 rounded-lg"
+        >
+            {{ __('Reservation was created. We will notify you with email.') }}
+        </div>
+    @endif
 
     <div class="flex flex-col lg:flex-row text-white">
         <div
