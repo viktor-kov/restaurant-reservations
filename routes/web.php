@@ -3,8 +3,8 @@
 use App\Http\Controllers\Admin\Reservation\DeleteReservationController;
 use App\Http\Controllers\Admin\Reservation\ListReservationController;
 use App\Http\Controllers\Admin\Reservation\ShowReservationController;
-use App\Http\Controllers\Customer\Reservation\ListReservationController as CustomerListReservationController;
 use App\Http\Controllers\Customer\Reservation\DeleteReservationController as CustomerDeleteReservationController;
+use App\Http\Controllers\Customer\Reservation\ListReservationController as CustomerListReservationController;
 use App\Http\Controllers\Page\HomepageController;
 use App\Http\Middleware\IsAdminMiddleware;
 use Illuminate\Support\Facades\Route;
