@@ -8,17 +8,17 @@ use Carbon\CarbonInterface;
 
 class ReservationService
 {
-    public function __construct(
-        private CarbonInterface $month,
-        private CarbonInterface $now,
-    ) {
-        //
+    private CarbonInterface $now;
+
+    public function __construct()
+    {
+        $this->now = now();
     }
 
     public function getAvailableTimes(
         CarbonInterface $date,
     ): array {
-        if (! $date->isSameMonth($this->month)) {
+        if (! $date->isSameMonth($this->now)) {
             return [];
         }
 

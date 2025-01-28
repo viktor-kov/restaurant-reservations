@@ -16,10 +16,7 @@ class CreateReservationAction
     public function handle(
         CreateReservationDTO $createReservationDTO
     ): Reservation {
-        $reservationService = resolve(ReservationService::class, [
-            'month' => $createReservationDTO->reservationDate,
-            'now' => $createReservationDTO->reservationDate,
-        ]);
+        $reservationService = resolve(ReservationService::class);
 
         $availableTimes = $reservationService->getAvailableTimes(
             $createReservationDTO->reservationDate
@@ -34,6 +31,13 @@ class CreateReservationAction
                 $createReservationDTO->reservationDate->format('H:i'),
                 $availableTimes
             )
+        ) {
+            throw new UnableToCreateReservationException;
+        }
+
+        if (
+            $createReservationDTO->seatsCount <= 0
+            || $createReservationDTO->seatsCount > config('restaurant.max_seats_per_table')
         ) {
             throw new UnableToCreateReservationException;
         }

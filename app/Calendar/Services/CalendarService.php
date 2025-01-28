@@ -22,10 +22,7 @@ class CalendarService
         $this->start = $selectedDay
             ->startOfMonth();
 
-        $this->reservationService = resolve(ReservationService::class, [
-            'month' => $this->start,
-            'now' => now(),
-        ]);
+        $this->reservationService = resolve(ReservationService::class);
     }
 
     public function get(): CalendarDTO
