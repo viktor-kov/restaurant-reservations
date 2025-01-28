@@ -123,6 +123,7 @@
                                 <input
                                     type="number"
                                     class="h-8 w-20 flex items-center justify-center  border border-gray-400 rounded-lg"
+                                    readonly
                                     wire:model.debounce="seatsCount"
                                 >
                             </div>
