@@ -193,4 +193,64 @@ class ReservationCreationTest extends TestCase
             )
         );
     }
+
+    public function test_reservation_can_not_be_created_at_weekends(): void
+    {
+        $user = User::factory()
+            ->create();
+
+        $this->actingAs($user);
+
+        $this->expectException(UnableToCreateReservationException::class);
+
+        CarbonImmutable::setTestNow(
+            now()
+                ->previousWeekendDay()
+                ->setTime(15, 0, 0)
+        );
+
+        config()
+            ->set('restaurant.weekends', false);
+
+        $createReservationAction = new CreateReservationAction;
+
+        $createReservationAction->handle(
+            new CreateReservationDTO(
+                now(),
+                1,
+                '',
+                $user,
+            )
+        );
+    }
+
+    public function test_reservation_can_be_created_at_weekends(): void
+    {
+        $user = User::factory()
+            ->create();
+
+        $this->actingAs($user);
+
+        CarbonImmutable::setTestNow(
+            now()
+                ->previousWeekendDay()
+                ->setTime(15, 0, 0)
+        );
+
+        config()
+            ->set('restaurant.weekends', true);
+
+        $createReservationAction = new CreateReservationAction;
+
+        $createReservationAction->handle(
+            new CreateReservationDTO(
+                now(),
+                1,
+                '',
+                $user,
+            )
+        );
+
+        $this->assertDatabaseCount('reservations', 1);
+    }
 }
