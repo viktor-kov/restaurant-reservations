@@ -253,4 +253,60 @@ class ReservationCreationTest extends TestCase
 
         $this->assertDatabaseCount('reservations', 1);
     }
+
+    public function test_reservation_can_not_be_created_before_first_available_time(): void
+    {
+        $user = User::factory()
+            ->create();
+
+        $this->actingAs($user);
+
+        $this->expectException(UnableToCreateReservationException::class);
+
+        CarbonImmutable::setTestNow(
+            now()
+                ->previousWeekendDay()
+                ->setTimeFromTimeString(config('restaurant.first_available_time'))
+                ->subHour()
+        );
+
+        $createReservationAction = new CreateReservationAction;
+
+        $createReservationAction->handle(
+            new CreateReservationDTO(
+                now(),
+                1,
+                '',
+                $user,
+            )
+        );
+    }
+
+    public function test_reservation_can_not_be_created_after_last_available_time(): void
+    {
+        $user = User::factory()
+            ->create();
+
+        $this->actingAs($user);
+
+        $this->expectException(UnableToCreateReservationException::class);
+
+        CarbonImmutable::setTestNow(
+            now()
+                ->previousWeekendDay()
+                ->setTimeFromTimeString(config('restaurant.last_available_time'))
+                ->addHour()
+        );
+
+        $createReservationAction = new CreateReservationAction;
+
+        $createReservationAction->handle(
+            new CreateReservationDTO(
+                now(),
+                1,
+                '',
+                $user,
+            )
+        );
+    }
 }
