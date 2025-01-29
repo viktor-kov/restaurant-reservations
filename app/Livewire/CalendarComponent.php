@@ -10,6 +10,7 @@ use App\Reservation\DTOs\CreateReservationDTO;
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
 use Carbon\CarbonInterface;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
@@ -151,6 +152,8 @@ class CalendarComponent extends Component
         ]);
 
         try {
+            DB::beginTransaction();
+
             $reservationDate = CarbonImmutable::parse("{$this->selectedDate} {$this->selectedTime}");
 
             $createReservationAction = new CreateReservationAction;
@@ -174,7 +177,11 @@ class CalendarComponent extends Component
             $this->setSelectedDate(today());
 
             $this->showSuccessMessage();
+
+            DB::commit();
         } catch (Throwable $throwable) {
+            DB::rollBack();
+
             $this->addError(
                 'generalError',
                 __('Unable to create a reservation.')
