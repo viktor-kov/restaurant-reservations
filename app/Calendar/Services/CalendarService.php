@@ -43,7 +43,10 @@ class CalendarService
 
         $week = $this->start;
 
-        while ($week->isSameMonth($this->start)) {
+        while (
+            $week->isSameMonth($this->start)
+            || ($week->isNextMonth() && $week->weekNumberInMonth === 1)
+        ) {
             $weeksWithDays[] = new WeekDTO(
                 days: $this->getDaysInWeek($week),
             );
